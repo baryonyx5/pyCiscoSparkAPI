@@ -13,8 +13,12 @@ Installation
 
 #### Manual
 
-git clone https://github.com/shenning/pyspark.git
-pip install -r requirements.txt
+```
+git clone https://github.com/shenning00/pyCiscoSparkAPI.git
+cd pyCiscoSparkAPI
+python ./setup.py build
+python ./setup.py install
+```
 
 
 Usage
@@ -32,4 +36,5 @@ client = SparkClient(token)
 rooms = client.rooms.getRooms()
 for room in rooms:
     print(room.title())
-'''
+```
+
