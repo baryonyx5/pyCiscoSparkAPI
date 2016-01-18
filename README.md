@@ -77,7 +77,8 @@ for room in rooms:
 Create a new room.
 
 ```python
-room  = client.rooms.newRoom("3rd Quarter Projects")
+client = SparkClient(token)
+room  = client.rooms.newRoom("3rd Quarter Projections")
 print(room.title())
 print(room.id())
 ```
@@ -96,6 +97,7 @@ for message in messages:
 
 Send a message to a room.
 ```python
+client = SparkClient(token)
 message = client.messages.sendMessageToRoom(roomId,"Quarter projects are on target.")
 print(message.id())
 ```

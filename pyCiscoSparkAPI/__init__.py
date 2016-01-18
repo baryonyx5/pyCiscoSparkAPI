@@ -83,8 +83,12 @@ class People:
         self.restReq = RestReq(token,timeout=None)
 
     def getPeople(self, email=None, displayName=None, max=None):
+        """Get a list of People using email address or displayName.
+        Use only one of email address ofr displayName - not both.
+        max can be used to restrict the number of People returned.
+        """
         if email != None and displayName != None:
-            raise Exception('email and displayName are NOT None!')
+            raise Exception('Use either email address or displayName for getPeople, not both!')
         payload = { 'email' : email, 'displayName' : displayName, 'max' : max }
         response = self.restReq.get(self.PEOPLE_URL,payload=payload)
         if response.status_code != 200:
@@ -96,7 +100,16 @@ class People:
                 person_array.append(Person(r.get('id'),r.get('emails'),r.get('displayName'),r.get('avatar'),r.get('created')))
             return person_array
 
+    def getPeopleByEmail(self,email,max=None):
+        """Get People by email address."""
+        return self.getPeople(self,email=email,max=max)
+
+    def getPeopleByDispayName(self,displayName,max=None):
+        """Get People by displayName"""
+        return self.getPeople(self,displayName=displayName,max=max)
+
     def getPersonDetails(self,id):
+        """Get details of a single person using an person id."""
         response = self.restReq.get(self.PEOPLE_URL,id=id)
         if response.status_code != 200:
             response.raise_for_status()
@@ -105,6 +118,7 @@ class People:
             return Person(r.get('id'),r.get('emails'),r.get('displayName'),r.get('avatar'),r.get('created'))
 
     def getMe(self):
+        """Get personal datails of 'me' using token."""
         return self.getPersonDetails('me')
 
 # A wrapper class for Membership content
@@ -155,6 +169,10 @@ class Memberships:
         self.restReq = RestReq(token,timeout)
 
     def getMemberships(self,roomId=None,personId=None,personEmail=None,max=None):
+        """Get an array of all of my Memberships
+        This request can be queryied by roomId, personId, or personEmail address.
+        The number of items return can be restricted by max.
+        """
         if personId != None and personEmail != None:
             raise Exception('personId and personEmail are NOT None!')
         payload = { 'roomId' : roomId, 'personId' : personId, 'personEmail' : personEmail, 'max' : max }
@@ -171,10 +189,13 @@ class Memberships:
     def getMembershipsByRoom(self,roomId):
         return self.getMemberships(roomId=roomId)
 
-    def getMembershipsByPerson(self,personId=None,personEmail=None):
-        return self.getMemberships(personId=personId,personEmail=personEmail)
+    def getMembershipsByPersonId(self,personId):
+        return self.getMemberships(persondId=personId)
 
-    def createMembershipToRoom(self,roomId,personId=None,personEmail=None,isModerator=False):
+    def getMembershipsByPersonEmail(self,personEmail):
+        return self.getMemberships(personEmail=personEmail)
+        
+    def createMembershipToRoom(self,roomId,personId=None,personEmail=None,isModerator=None):
         if personId == None and personEmail == None:
             raise Exception("personId or personEmail should not be None")
         if personIde != None and personEmail != None:
@@ -186,6 +207,12 @@ class Memberships:
         else:
             r  = response.json()
             return Membership(r.get('id'),r.get('personId'),r.get('personEmail'),r.get('roomId'),r.get('isModerator'),r.get('isMonitor'),r.get('created'))
+
+    def createMemebershipToRoomByPersonId(self,roomId,personId,isModerator=None):
+        return self.createMembershipToRoom(roomId,personId,isModerator)
+
+    def createMembershipToRoomByPersonEmail(self,roomId,personEmail,isModerator=None):
+        return self.createMembershipToRoom(roomId,personEmail,isModerator)
 
     def getMembershipDetails(self,membershipId):
         response = self.restReq.get(self.MEMBERSHIPS_URL,id=membershipId)
