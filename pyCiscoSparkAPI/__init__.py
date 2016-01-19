@@ -157,7 +157,8 @@ class Membership:
 #
 # getMemberships
 # getMembershipsByRoom
-# getMembershipsByPerson
+# getMembershipsByPersonId
+# getMembershipsByPersonEmail
 # createMembershipToRoom
 # getMembershipDetails
 # updateMembership
@@ -190,16 +191,18 @@ class Memberships:
         return self.getMemberships(roomId=roomId)
 
     def getMembershipsByPersonId(self,personId):
-        return self.getMemberships(persondId=personId)
+        return self.getMemberships(personId=personId)
 
     def getMembershipsByPersonEmail(self,personEmail):
         return self.getMemberships(personEmail=personEmail)
-        
+
     def createMembershipToRoom(self,roomId,personId=None,personEmail=None,isModerator=None):
+        """
         if personId == None and personEmail == None:
             raise Exception("personId or personEmail should not be None")
-        if personIde != None and personEmail != None:
+        if personId != None and personEmail != None:
             raise Exception("personId or personEmail can be set - not both!")
+        """
         payload = { 'roomId' : roomId, 'personId' : personId, 'personEmail': personEmail, 'isModerator' : isModerator }
         response = self.restReq.post(self.MEMBERSHIPS_URL,payload)
         if response.status_code != 200:
@@ -209,10 +212,10 @@ class Memberships:
             return Membership(r.get('id'),r.get('personId'),r.get('personEmail'),r.get('roomId'),r.get('isModerator'),r.get('isMonitor'),r.get('created'))
 
     def createMemebershipToRoomByPersonId(self,roomId,personId,isModerator=None):
-        return self.createMembershipToRoom(roomId,personId,isModerator)
+        return self.createMembershipToRoom(roomId,personId=personId,isModerator=isModerator)
 
     def createMembershipToRoomByPersonEmail(self,roomId,personEmail,isModerator=None):
-        return self.createMembershipToRoom(roomId,personEmail,isModerator)
+        return self.createMembershipToRoom(roomId,personEmail=personEmail,isModerator=isModerator)
 
     def getMembershipDetails(self,membershipId):
         response = self.restReq.get(self.MEMBERSHIPS_URL,id=membershipId)
@@ -222,7 +225,7 @@ class Memberships:
             r  = response.json()
             return Membership(r.get('id'),r.get('personId'),r.get('personEmail'),r.get('roomId'),r.get('isModerator'),r.get('isMonitor'),r.get('created'))
 
-    def updateMembership(self,membershipId,isModerator):
+    def updateMembershipModerator(self,membershipId,isModerator):
         payload = { 'isModerator' : isModerator }
         response = self.restReq.put(self.MEMBERSHIPS_URL,id=membershipId,payload=payload)
         if response.status_code != 200:
