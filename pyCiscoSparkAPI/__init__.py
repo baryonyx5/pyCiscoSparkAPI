@@ -396,8 +396,8 @@ class Messages:
             return Message(r.get('id'),r.get('roomId'),r.get('personId'),r.get('pesonEMail'),r.get('created'),r.get('text'))
 
     def sendMessageToPerson(self,text,toPersonId=None,toPersonEmail=None,files=None):
-        if toPersonID != None and toPersonEmail != None:
-            raise Exception('toPersonId and toPersonEmail are NOT None!')
+        if toPersonId != None and toPersonEmail != None:
+            raise Exception('use toPersonId or toPersonEmail - not both!')
         payload = { 'text' : text, 'toPersonId' : toPersonId, 'toPersonEmail' : toPersonEmail, 'files' : files }
         response = self.restReq.post(self.MESSAGES_URL,payload=payload)
         if response.status_code != 200:
@@ -405,6 +405,12 @@ class Messages:
         else:
             r = response.json()
             return Message(r.get('id'),r.get('roomId'),r.get('personId'),r.get('pesonEMail'),r.get('created'),r.get('text'))
+
+    def sendMessageToPersonId(self,text,toPersonId,files=None):
+        return self.sendMessageToPerson(text,toPersonId=toPersonId,files=files)
+
+    def sendMessageToPersonEmail(self,text,toPersonEmail,files=None):
+        return self.sendMessageToPerson(text,toPersonEmail=toPersonEmail,files=files)
 
     def getMessagesById(self,messageId):
         payload = { 'id' : messageId }
