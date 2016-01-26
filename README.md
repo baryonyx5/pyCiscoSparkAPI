@@ -24,7 +24,7 @@ Usage
 ----
 Here are a few simple examples.
 
-__Note__: This SDK uses the simple Personal Access Token. See here ((see https://developer.ciscospark.com/getting-started.html)) for more info on how to get the token.
+__Note__: This SDK uses the simple Personal Access Token. See here (see https://developer.ciscospark.com/getting-started.html) for more info on how to get the token.
 
 ###Getting Started####
 

@@ -53,7 +53,7 @@ class Messages:
             message_array = []
             results = response.json()
             for r in results['items']:
-                message_array.append(Message(r.get('id'),r.get('roomId'),r.get('personId'),r.get('pesonEMail'),r.get('created'),r.get('text'),r.get('files')))
+                message_array.append(Message(r.get('id'),r.get('roomId'),r.get('personId'),r.get('pesonEmail'),r.get('created'),r.get('text'),r.get('files')))
             return message_array
 
     def sendMessageToRoom(self,roomId,text,files=None):
@@ -63,7 +63,7 @@ class Messages:
             response.raise_for_status()
         else:
             r = response.json()
-            return Message(r.get('id'),r.get('roomId'),r.get('personId'),r.get('pesonEMail'),r.get('created'),r.get('text'),r.get('files'))
+            return Message(r.get('id'),r.get('roomId'),r.get('personId'),r.get('pesonEmail'),r.get('created'),r.get('text'),r.get('files'))
 
     def sendMessageToPerson(self,text,toPersonId=None,toPersonEmail=None,files=None):
         if toPersonId != None and toPersonEmail != None:
@@ -74,7 +74,7 @@ class Messages:
             response.raise_for_status()
         else:
             r = response.json()
-            return Message(r.get('id'),r.get('roomId'),r.get('personId'),r.get('pesonEMail'),r.get('created'),r.get('text'),r.get('files'))
+            return Message(r.get('id'),r.get('roomId'),r.get('personId'),r.get('pesonEmail'),r.get('created'),r.get('text'),r.get('files'))
 
     def sendMessageToPersonId(self,text,toPersonId,files=None):
         return self.sendMessageToPerson(text,toPersonId=toPersonId,files=files)
@@ -88,7 +88,7 @@ class Messages:
             response.raise_for_status()
         else:
             r = response.json()
-            return Message(r.get('id'),r.get('roomId'),r.get('personId'),r.get('pesonEMail'),r.get('created'),r.get('text'),r.get('files'))
+            return Message(r.get('id'),r.get('roomId'),r.get('personId'),r.get('pesonEmail'),r.get('created'),r.get('text'),r.get('files'))
 
     def deleteMessage(self,messageId):
         response = self.restReq.delete(self.MESSAGES_URL,id=messageId)

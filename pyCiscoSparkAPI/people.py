@@ -54,11 +54,11 @@ class People:
 
     def getPeopleByEmail(self,email,max=None):
         """Get People by email address."""
-        return self.getPeople(self,email=email,max=max)
+        return self.getPeople(email=email,max=max)
 
     def getPeopleByDispayName(self,displayName,max=None):
         """Get People by displayName"""
-        return self.getPeople(self,displayName=displayName,max=max)
+        return self.getPeople(displayName=displayName,max=max)
 
     def getPersonDetails(self,id):
         """Get details of a single person using an person id."""

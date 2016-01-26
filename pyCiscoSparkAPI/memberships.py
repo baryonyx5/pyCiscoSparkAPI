@@ -26,7 +26,7 @@ class Membership:
     def isModerator(self):
         return self._isModerator
 
-    def iMonitor(self):
+    def isMonitor(self):
         return self._isMonitor
 
     def created(self):
