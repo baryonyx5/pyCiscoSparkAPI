@@ -7,7 +7,7 @@ def main():
     client = SparkClient(token)
     rooms = client.rooms.getRooms()
     for room in rooms:
-        print(room.title())
+        print(room.title)
 
 #    client = SparkClient(token,timeout=60)
 #
